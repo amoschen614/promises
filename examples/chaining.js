@@ -17,7 +17,7 @@ var addNewUserToDatabaseAsync = function(user) {
     })
     .then(function(newUser) {
       return db.hashPasswordAsync(newUser); // Return a promise
-    })
+    }, function() { console.log('jake'); })
     .then(function(securedUser) {
       return db.createAndSaveUserAsync(securedUser); // Return another promise
     });
@@ -31,3 +31,15 @@ addNewUserToDatabaseAsync({ name: 'Dan', password: 'chickennuggets' })
     // Will catch any promise rejections or thrown errors in the chain!
     console.log('Oops, caught an error: ', err.message);
   });
+
+setTimeout(function() {
+  addNewUserToDatabaseAsync({ name: 'Dan', password: 'chickennuggets' })
+  .then(function(savedUser) {
+    console.log('All done!');
+  })
+  .catch(function(err) {
+    // Will catch any promise rejections or thrown errors in the chain!
+    console.log('Oops, caught an error: ', err.message);
+  });
+}, 1000);
+
